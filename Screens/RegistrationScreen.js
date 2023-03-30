@@ -10,7 +10,7 @@ import {
     Keyboard,
     TouchableWithoutFeedback,
     Dimensions,
-    Image
+    Image,
 } from "react-native"
 
 export default function RegistrationScreen() {
@@ -53,7 +53,8 @@ export default function RegistrationScreen() {
         <TouchableWithoutFeedback onPress={closeKeyboard}>
         <View style={{...styles.container, flex: isShowKeyboard ? 0.8 : 0.67}}>
                 <View style={{ ...styles.photoContainer, left: (width - 120) / 2 }}>
-                <Image style={styles.iconAdd} source={require('../assets/images/add.svg')}/>
+                    <View style={styles.iconContainer}><Image style={styles.iconAdd} source={require('../assets/images/add.svg')}/></View>
+                
             </View>
             <Text style={styles.text}>Регистрація</Text>
             <KeyboardAvoidingView
@@ -91,7 +92,7 @@ export default function RegistrationScreen() {
             </View>
                 </View>
                 </KeyboardAvoidingView>
-            <TouchableOpacity style={styles.submitBtn} activeOpacity={0.7} onPress ={submit}>
+            <TouchableOpacity style={{...styles.submitBtn, width: width -32}} activeOpacity={0.7} onPress ={submit}>
                 <Text style={styles.submitTitle}>Зареєструватися</Text>
             </TouchableOpacity>
             <Text style={styles.askLogo}>Уже есть аккаунт? Войти</Text>
@@ -113,7 +114,6 @@ const styles = StyleSheet.create({
         color: '#212121',
         paddingTop: 92,
         fontSize: 30,
-        lineHeight:1.17,
     },
     photoContainer: {
         position: 'absolute',
@@ -156,8 +156,8 @@ const styles = StyleSheet.create({
     },
     submitBtn: {
         // paddingTop:43,
-        paddingRight: 16,
-        paddingLeft: 16,
+        marginRight: 16,
+        marginLeft: 16,
         height:51,
         backgroundColor: '#FF6C00',
         justifyContent: 'center',
@@ -178,8 +178,12 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top:16,
     }, 
+    iconContainer: {
+        padding:0,
+    },
     iconAdd: {
         position: 'absolute',
+        padding:0,
         top: 90,
         right: -10,
         width: 25,
