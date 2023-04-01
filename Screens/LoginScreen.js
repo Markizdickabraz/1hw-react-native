@@ -32,12 +32,10 @@ export default function LoginScreen() {
         const placeholder = e.target.placeholder;
         setIsShowKeyboard(true)
 
-        switch (e) {
-            case email:
-            placeholder === 'Адреса електронної пошти'
+        switch (placeholder) {
+            case ('Адреса електронної пошти'):
                 setInputBorderColorEmail('#FF6C00')
-            case pass:
-                placeholder === 'Пароль'
+            case ('Пароль'):
                 setInputBorderColorPass('#FF6C00')
             default:
                 setInputBorderColorEmail('#f6f6f6')

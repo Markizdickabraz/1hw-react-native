@@ -60,23 +60,22 @@ export default function RegistrationScreen() {
 
     
     const inputFocus = (e) => {
-        console.log(e.target)
-        const placeholder = e.target.placeholder;
+        const  placeholder  = e.currentTarget.placeholder;
+        console.dir(e.target.placeholder)
         setIsShowKeyboard(true)
 
-        switch (e) {
-            case login:
-            placeholder === 'Логін' 
+        switch (placeholder) {
+            case 'Логін' :
                 setInputBorderColorLogin('#FF6C00')
-            case email:
-            placeholder === 'Адреса електронної пошти'
+            case 'Адреса електронної пошти':
                 setInputBorderColorEmail('#FF6C00')
-            case pass:
-                placeholder === 'Пароль'
+            case 'Пароль':
                 setInputBorderColorPass('#FF6C00')
-            default: setInputBorderColorEmail('#f6f6f6')
-                setInputBorderColorLogin('#f6f6f6')
-                setInputBorderColorPass('#f6f6f6')
+            default:
+                // setInputBorderColorEmail('#f6f6f6')
+                // setInputBorderColorLogin('#f6f6f6')
+                // setInputBorderColorPass('#f6f6f6')
+                console.log(inputBorderColorLogin)
         }
     }
     
@@ -119,16 +118,17 @@ export default function RegistrationScreen() {
             >
             <View style={{...styles.inputContainer}}>
                  <View >
-                            <TextInput style={{ ...styles.input, borderColor: inputBorderColorLogin }}
-                        value={registration.login}
-                        placeholder='Логін'  
-                        onChangeText={(value) => setRegistration((prevState) =>({...prevState, login: value})) }
+                            <TextInput style={{ ...styles.inputLogin, borderColor: inputBorderColorLogin }}
+                            value={registration.login}
+                            name ='Логін'
+                            placeholder='Логін'  
+                            onChangeText={(value) => setRegistration((prevState) =>({...prevState, login: value})) }
                                 onFocus={inputFocus}
                                 placeholderTextColor='#BDBDBD'
                             />
             </View>
              <View >
-                            <TextInput style={{ ...styles.input, borderColor: inputBorderColorEmail }}
+                            <TextInput style={{ ...styles.inputEmail, borderColor: inputBorderColorEmail }}
                         value={registration.email}
                         placeholder='Адреса електронної пошти'
                         onChangeText={(value) => setRegistration((prevState) => ({ ...prevState, email: value }))}
@@ -137,7 +137,7 @@ export default function RegistrationScreen() {
                 />
             </View>
              <View >
-                            <TextInput style={{ ...styles.input, borderColor: inputBorderColorPass }}
+                            <TextInput style={{ ...styles.inputPass, borderColor: inputBorderColorPass }}
                     value={registration.pass}
                     placeholder='Пароль'  
                     onChangeText={(value) => setRegistration((prevState) =>({...prevState, pass: value})) }
@@ -189,7 +189,23 @@ const styles = StyleSheet.create({
         paddingBottom:43,
         gap:16,
     },
-    input: {
+    inputLogin: {
+        backgroundColor: '#e8e8e8',
+        height: 50,
+        borderWidth: 1,
+        // borderColor: '#f6f6f6',
+        borderRadius: 8,
+        paddingLeft: 16,
+    },
+      inputEmail: {
+        backgroundColor: '#e8e8e8',
+        height: 50,
+        borderWidth: 1,
+        // borderColor: '#f6f6f6',
+        borderRadius: 8,
+        paddingLeft: 16,
+    },
+        inputPass: {
         backgroundColor: '#e8e8e8',
         height: 50,
         borderWidth: 1,
