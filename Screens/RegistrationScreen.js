@@ -12,9 +12,28 @@ import {
     Dimensions,
     Image,
 } from "react-native"
+import * as ImagePicker from 'expo-image-picker';
 
 export default function RegistrationScreen() {
-    // console.log(Platform.OS)
+    const [image, setImage] = useState(null)
+    
+    const pickImage = async () => {
+            console.log('fddd')
+            // No permissions request is necessary for launching the image library
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.All,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+    
+            console.log(result);
+    
+            if (!result.canceled) {
+                setImage(result.assets[0].uri);
+            }
+        }
+    
     const width = Dimensions.get('window').width;
     const [isShowKeyboard, setIsShowKeyboard] = useState(false)
 
@@ -48,13 +67,18 @@ export default function RegistrationScreen() {
         setIsShowKeyboard(false)
         console.log(registration)
         setRegistration(intialRegistration)
-     }
+    }
+ 
     return (
         <TouchableWithoutFeedback onPress={closeKeyboard}>
         <View style={{...styles.container, flex: isShowKeyboard ? 0.8 : 0.67}}>
                 <View style={{ ...styles.photoContainer, left: (width - 120) / 2 }}>
-                    <View style={styles.iconContainer}><Image style={styles.iconAdd} source={require('../assets/images/add.svg')}/></View>
-                
+                    <TouchableOpacity  onPress={pickImage} style={styles.iconContainer}>
+                    {image && <Image source={{ uri: image }} style={{ width: 120, height: 120, borderRadius:16 }} />}
+                        <Image
+                            fadeDuration={0}
+                            style={styles.iconAdd} source={require('../assets/images/add.png')} />
+                    </TouchableOpacity>           
             </View>
             <Text style={styles.text}>Регистрація</Text>
             <KeyboardAvoidingView
@@ -107,7 +131,8 @@ const styles = StyleSheet.create({
         position: 'relative',
     // height: 549,
         flex: 0.67,
-        borderRadius: 25,
+        borderTopLeftRadius: 25,
+        borderTopRightRadius:25,
     },
     text: {
         textAlign:'center',
@@ -179,7 +204,8 @@ const styles = StyleSheet.create({
         top:16,
     }, 
     iconContainer: {
-        padding:0,
+        padding: 0,
+        zIndex: 999,
     },
     iconAdd: {
         position: 'absolute',
