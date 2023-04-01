@@ -14,13 +14,16 @@ import {
 } from "react-native"
 import * as ImagePicker from 'expo-image-picker';
 
+const deleteAvatar = null;
+
 export default function RegistrationScreen() {
-    const [image, setImage] = useState(null)
+    const [image, setImage] = useState(deleteAvatar)
     
     const pickImage = async (e) => {
-            console.log(e.target)
+        console.log(e.target)
             // No permissions request is necessary for launching the image library
-            let result = await ImagePicker.launchImageLibraryAsync({
+        if (!image) {
+                let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.All,
                 allowsEditing: true,
                 aspect: [4, 3],
@@ -33,6 +36,10 @@ export default function RegistrationScreen() {
                 setImage(result.assets[0].uri);
             }
         }
+        else {
+            setImage(deleteAvatar)
+        }
+        }
     
     const width = Dimensions.get('window').width;
     const [isShowKeyboard, setIsShowKeyboard] = useState(false)
@@ -44,11 +51,33 @@ export default function RegistrationScreen() {
     }
     const [registration, setRegistration] = useState(intialRegistration);
  
-    const [inputBorderColor, setInputBorderColor] = useState('#f6f6f6')
+
+
+    const [inputBorderColorLogin, setInputBorderColorLogin] = useState('#f6f6f6');
+    const [inputBorderColorEmail, setInputBorderColorEmail] = useState('#f6f6f6');
+    const [inputBorderColorPass, setInputBorderColorPass] = useState('#f6f6f6')
+
+
     
-    const inputFocus = () => {
+    const inputFocus = (e) => {
+        console.log(e.target)
+        const placeholder = e.target.placeholder;
         setIsShowKeyboard(true)
-        setInputBorderColor('#FF6C00')
+
+        switch (e) {
+            case login:
+            placeholder === 'Логін' 
+                setInputBorderColorLogin('#FF6C00')
+            case email:
+            placeholder === 'Адреса електронної пошти'
+                setInputBorderColorEmail('#FF6C00')
+            case pass:
+                placeholder === 'Пароль'
+                setInputBorderColorPass('#FF6C00')
+            default: setInputBorderColorEmail('#f6f6f6')
+                setInputBorderColorLogin('#f6f6f6')
+                setInputBorderColorPass('#f6f6f6')
+        }
     }
     
     useEffect(() => {
@@ -57,7 +86,8 @@ export default function RegistrationScreen() {
 
     const [seePass, useSeePass] = useState(true);
 
-    const closeKeyboard = () => {
+    const closeKeyboard = (e) => {
+        
         Keyboard.dismiss();
         setIsShowKeyboard(false)
     }
@@ -75,9 +105,12 @@ export default function RegistrationScreen() {
                 <View style={{ ...styles.photoContainer, left: (width - 120) / 2 }}>
                     <TouchableOpacity  onPress={pickImage} style={styles.iconContainer}>
                     {image && <Image source={{ uri: image }} style={{ width: 120, height: 120, borderRadius:16 }} />}
-                        <Image
+                        {!image && <Image
                             fadeDuration={0}
-                            style={styles.iconAdd} source={require('../assets/images/add.png')} />
+                            style={styles.iconAdd} source={require('../assets/images/add.png')} />}
+                        {image && <Image
+                            fadeDuration={0}
+                            style={{...styles.iconDelete}} source={require('../assets/images/delete.png')} />}
                     </TouchableOpacity>           
             </View>
             <Text style={styles.text}>Регистрація</Text>
@@ -85,8 +118,8 @@ export default function RegistrationScreen() {
             behavior={Platform.OS == "ios" ? "padding" : "height"}
             >
             <View style={{...styles.inputContainer}}>
-                 <View>
-                            <TextInput style={{ ...styles.inputLogin, borderColor: inputBorderColor }}
+                 <View >
+                            <TextInput style={{ ...styles.input, borderColor: inputBorderColorLogin }}
                         value={registration.login}
                         placeholder='Логін'  
                         onChangeText={(value) => setRegistration((prevState) =>({...prevState, login: value})) }
@@ -94,8 +127,8 @@ export default function RegistrationScreen() {
                                 placeholderTextColor='#BDBDBD'
                             />
             </View>
-             <View>
-                            <TextInput style={{ ...styles.inputEmail, borderColor: inputBorderColor }}
+             <View >
+                            <TextInput style={{ ...styles.input, borderColor: inputBorderColorEmail }}
                         value={registration.email}
                         placeholder='Адреса електронної пошти'
                         onChangeText={(value) => setRegistration((prevState) => ({ ...prevState, email: value }))}
@@ -103,8 +136,8 @@ export default function RegistrationScreen() {
                                 placeholderTextColor ='#BDBDBD'  
                 />
             </View>
-             <View>
-                            <TextInput style={{ ...styles.inputPass, borderColor: inputBorderColor }}
+             <View >
+                            <TextInput style={{ ...styles.input, borderColor: inputBorderColorPass }}
                     value={registration.pass}
                     placeholder='Пароль'  
                     onChangeText={(value) => setRegistration((prevState) =>({...prevState, pass: value})) }
@@ -146,7 +179,8 @@ const styles = StyleSheet.create({
         borderRadius:16,
         width: 120,
         height: 120,
-        backgroundColor: '#F6F6F6'
+        backgroundColor: '#F6F6F6',
+        zIndex:1
     },
     inputContainer: {
         paddingRight: 16,
@@ -155,23 +189,7 @@ const styles = StyleSheet.create({
         paddingBottom:43,
         gap:16,
     },
-    inputLogin: {
-        backgroundColor: '#e8e8e8',
-        height: 50,
-        borderWidth: 1,
-        // borderColor: '#f6f6f6',
-        borderRadius: 8,
-        paddingLeft: 16,
-    },
-    inputEmail: {
-        backgroundColor: '#e8e8e8',
-        height: 50,
-        borderWidth: 1,
-        // borderColor: '#f6f6f6',
-        borderRadius: 8,
-        paddingLeft: 16,
-    },
-    inputPass: {
+    input: {
         backgroundColor: '#e8e8e8',
         height: 50,
         borderWidth: 1,
@@ -204,16 +222,22 @@ const styles = StyleSheet.create({
         top:16,
     }, 
     iconContainer: {
-        padding: 0,
         zIndex: 999,
     },
     iconAdd: {
         position: 'absolute',
-        padding:0,
         top: 90,
         right: -10,
         width: 25,
         height: 25,
+        resizeMode: 'cover'
+    },
+    iconDelete: {
+        position: 'absolute',
+        top: 86,
+        right: -17,
+        width: 37,
+        height: 37,
         resizeMode: 'cover'
     }
 })
