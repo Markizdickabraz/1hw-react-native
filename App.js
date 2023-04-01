@@ -7,8 +7,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <ImageBackground style={styles.image} source={require('./assets/images/PhotoBG.jpg')} >
-        <RegistrationScreen></RegistrationScreen>
-        {/* <LoginScreen></LoginScreen> */}
+        {/* <RegistrationScreen></RegistrationScreen> */}
+        <LoginScreen></LoginScreen>
       </ImageBackground>
       <StatusBar style="auto" />
     </View>

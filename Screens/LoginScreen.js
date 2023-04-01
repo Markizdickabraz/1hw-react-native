@@ -23,14 +23,27 @@ export default function LoginScreen() {
         pass: '',
     }
     const [registration, setRegistration] = useState(intialRegistration);
- 
-    const [inputBorderColor, setInputBorderColor] = useState('#f6f6f6')
-    
-    const inputFocus = () => {
+     
+    const [inputBorderColorEmail, setInputBorderColorEmail] = useState('#f6f6f6');
+    const [inputBorderColorPass, setInputBorderColorPass] = useState('#f6f6f6')
+
+    const inputFocus = (e) => {
+        console.log(e.target)
+        const placeholder = e.target.placeholder;
         setIsShowKeyboard(true)
-        setInputBorderColor('#FF6C00')
+
+        switch (e) {
+            case email:
+            placeholder === 'Адреса електронної пошти'
+                setInputBorderColorEmail('#FF6C00')
+            case pass:
+                placeholder === 'Пароль'
+                setInputBorderColorPass('#FF6C00')
+            default:
+                setInputBorderColorEmail('#f6f6f6')
+                setInputBorderColorPass('#f6f6f6')
+        }
     }
-    
     useEffect(() => {
         setIsShowKeyboard(false)
     }, [submit])
@@ -51,15 +64,12 @@ export default function LoginScreen() {
     return (
         <TouchableWithoutFeedback onPress={closeKeyboard}>
         <View style={{...styles.container, flex: isShowKeyboard ? 0.65 : 0.6}}>
-                {/* <View style={{ ...styles.photoContainer, left: (width - 120) / 2 }}> */}
-                {/* <Image style={styles.iconAdd} source={require('../assets/images/add.svg')}/> */}
-            {/* </View> */}
             <View style={styles.divText}><Text style={styles.text}>Війти</Text></View>
             <KeyboardAvoidingView style={{...styles.inputContainer}}
             behavior={Platform.OS == "ios" ? "padding" : "height"}
             >
              <View>
-                            <TextInput style={{ ...styles.inputEmail, borderColor: inputBorderColor }}
+                            <TextInput style={{ ...styles.input, borderColor: inputBorderColorEmail }}
                         value={registration.email}
                         placeholder='Адреса електронної пошти'
                         onChangeText={(value) => setRegistration((prevState) => ({ ...prevState, email: value }))}
@@ -68,7 +78,7 @@ export default function LoginScreen() {
                 />
             </View>
              <View>
-                            <TextInput style={{ ...styles.inputPass, borderColor: inputBorderColor }}
+                            <TextInput style={{ ...styles.input, borderColor: inputBorderColorPass }}
                     value={registration.pass}
                     placeholder='Пароль'  
                     onChangeText={(value) => setRegistration((prevState) =>({...prevState, pass: value})) }
@@ -92,9 +102,8 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: '#FFFFFF',
         position: 'relative',
-    // height: 549,
-        // flex: 0.67,
-        borderRadius: 25,
+        borderTopLeftRadius: 25,
+        borderTopRightRadius:25,
     },
     divText: {
         paddingTop :32,
@@ -103,16 +112,7 @@ const styles = StyleSheet.create({
         textAlign:'center',
         color: '#212121',
         fontSize: 30,
-        // lineHeight:1.17,
     },
-    // photoContainer: {
-    //     position: 'absolute',
-    //     top: -60,
-    //     borderRadius:16,
-    //     width: 120,
-    //     height: 120,
-    //     backgroundColor: '#F6F6F6'
-    // },
     inputContainer: {
         paddingRight: 16,
         paddingLeft: 16,
@@ -120,33 +120,16 @@ const styles = StyleSheet.create({
         paddingBottom:43,
         gap:16,
     },
-    inputLogin: {
+    input: {
         backgroundColor: '#e8e8e8',
         height: 50,
         borderWidth: 1,
-        // borderColor: '#f6f6f6',
         borderRadius: 8,
         paddingLeft: 16,
     },
-    inputEmail: {
-        backgroundColor: '#e8e8e8',
-        height: 50,
-        borderWidth: 1,
-        // borderColor: '#f6f6f6',
-        borderRadius: 8,
-        paddingLeft: 16,
-    },
-    inputPass: {
-        backgroundColor: '#e8e8e8',
-        height: 50,
-        borderWidth: 1,
-        // borderColor: '#f6f6f6',
-        borderRadius: 8,
-        paddingLeft: 16,
-    },
+
     submitBtn: {
         marginTop:43,
-        // paddingTop:43,
         marginRight: 16,
         marginLeft: 16,
         height:51,
@@ -156,7 +139,6 @@ const styles = StyleSheet.create({
         borderRadius: 100,
     },
     submitTitle: {
-        // flex:1,
         color: '#FFFFFF',
         textAlign: 'center',
     }, 
@@ -169,12 +151,4 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top:16,
     }, 
-    // iconAdd: {
-    //     position: 'absolute',
-    //     top: 90,
-    //     right: -10,
-    //     width: 25,
-    //     height: 25,
-    //     resizeMode: 'cover'
-    // }
 })
