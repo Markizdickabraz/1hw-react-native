@@ -54,39 +54,39 @@ export default function RegistrationScreen() {
     
 
 
-    const [inputBorderColorLogin, setInputBorderColorLogin] = useState('#f6f6f6');
-    const [inputBorderColorEmail, setInputBorderColorEmail] = useState('#f6f6f6');
-    const [inputBorderColorPass, setInputBorderColorPass] = useState('#f6f6f6')
+    // const [inputBorderColorLogin, setInputBorderColorLogin] = useState('#f6f6f6');
+    // const [inputBorderColorEmail, setInputBorderColorEmail] = useState('#f6f6f6');
+    // const [inputBorderColorPass, setInputBorderColorPass] = useState('#f6f6f6')
 
 
-    const inputColorDefault = () => {
-        setInputBorderColorEmail('#f6f6f6')
-        setInputBorderColorLogin('#f6f6f6')
-        setInputBorderColorPass('#f6f6f6')
-    }
+    // const inputColorDefault = () => {
+    //     setInputBorderColorEmail('#f6f6f6')
+    //     setInputBorderColorLogin('#f6f6f6')
+    //     setInputBorderColorPass('#f6f6f6')
+    // }
 
-    const inputFocus = (e) => {
-        // const  placeholder  = e.currentTarget.placeholder;
-        // console.dir(e.target.attributes.placeholder.nodeValue)
-        setIsShowKeyboard(true)
+    // const inputFocus = (e) => {
+    //     // const  placeholder  = e.currentTarget.placeholder;
+    //     // console.dir(e.target.attributes.placeholder.nodeValue)
+    //     setIsShowKeyboard(true)
 
-        if (e.target.attributes.placeholder.nodeValue === 'Логін') {
-            console.log('fdfd')
-            setInputBorderColorLogin('#FF6C00')
-            setInputBorderColorEmail('#f6f6f6')
-            setInputBorderColorPass('#f6f6f6')
-        }
-        if (e.target.attributes.placeholder.nodeValue === 'Адреса електронної пошти') {
-             setInputBorderColorEmail('#FF6C00')
-            setInputBorderColorLogin('#f6f6f6')
-            setInputBorderColorPass('#f6f6f6')
-        }
-        if (e.target.attributes.placeholder.nodeValue === 'Пароль') {
-            setInputBorderColorPass('#FF6C00')
-            setInputBorderColorLogin('#f6f6f6')
-            setInputBorderColorEmail('#f6f6f6')
-        }
-    }
+    //     if (e.target.attributes.placeholder.nodeValue === 'Логін') {
+    //         console.log('fdfd')
+    //         setInputBorderColorLogin('#FF6C00')
+    //         setInputBorderColorEmail('#f6f6f6')
+    //         setInputBorderColorPass('#f6f6f6')
+    //     }
+    //     if (e.target.attributes.placeholder.nodeValue === 'Адреса електронної пошти') {
+    //          setInputBorderColorEmail('#FF6C00')
+    //         setInputBorderColorLogin('#f6f6f6')
+    //         setInputBorderColorPass('#f6f6f6')
+    //     }
+    //     if (e.target.attributes.placeholder.nodeValue === 'Пароль') {
+    //         setInputBorderColorPass('#FF6C00')
+    //         setInputBorderColorLogin('#f6f6f6')
+    //         setInputBorderColorEmail('#f6f6f6')
+    //     }
+    // }
     
     useEffect(() => {
         setIsShowKeyboard(false)
