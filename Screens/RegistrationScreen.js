@@ -52,41 +52,8 @@ export default function RegistrationScreen() {
     
     const [registration, setRegistration] = useState(intialRegistration);
     
+    const [activeInput,setActiveInput]=useState('');
 
-
-    // const [inputBorderColorLogin, setInputBorderColorLogin] = useState('#f6f6f6');
-    // const [inputBorderColorEmail, setInputBorderColorEmail] = useState('#f6f6f6');
-    // const [inputBorderColorPass, setInputBorderColorPass] = useState('#f6f6f6')
-
-
-    // const inputColorDefault = () => {
-    //     setInputBorderColorEmail('#f6f6f6')
-    //     setInputBorderColorLogin('#f6f6f6')
-    //     setInputBorderColorPass('#f6f6f6')
-    // }
-
-    // const inputFocus = (e) => {
-    //     // const  placeholder  = e.currentTarget.placeholder;
-    //     // console.dir(e.target.attributes.placeholder.nodeValue)
-    //     setIsShowKeyboard(true)
-
-    //     if (e.target.attributes.placeholder.nodeValue === 'Логін') {
-    //         console.log('fdfd')
-    //         setInputBorderColorLogin('#FF6C00')
-    //         setInputBorderColorEmail('#f6f6f6')
-    //         setInputBorderColorPass('#f6f6f6')
-    //     }
-    //     if (e.target.attributes.placeholder.nodeValue === 'Адреса електронної пошти') {
-    //          setInputBorderColorEmail('#FF6C00')
-    //         setInputBorderColorLogin('#f6f6f6')
-    //         setInputBorderColorPass('#f6f6f6')
-    //     }
-    //     if (e.target.attributes.placeholder.nodeValue === 'Пароль') {
-    //         setInputBorderColorPass('#FF6C00')
-    //         setInputBorderColorLogin('#f6f6f6')
-    //         setInputBorderColorEmail('#f6f6f6')
-    //     }
-    // }
     
     useEffect(() => {
         setIsShowKeyboard(false)
@@ -97,7 +64,6 @@ export default function RegistrationScreen() {
     const closeKeyboard = (e) => {
         Keyboard.dismiss();
         setIsShowKeyboard(false)
-        // inputColorDefault()
     }
 
     const submit = () => {
@@ -105,7 +71,6 @@ export default function RegistrationScreen() {
         setIsShowKeyboard(false)
         console.log(registration)
         setRegistration(intialRegistration)
-        inputColorDefault()
     }
  
     return (
@@ -128,30 +93,30 @@ export default function RegistrationScreen() {
             >
             <View style={{...styles.inputContainer}}>
                  <View >
-                            <TextInput style={{ ...styles.inputLogin, borderColor: inputBorderColorLogin }}
+                            <TextInput style={{ ...styles.input, borderColor:activeInput==='login'?'#FF6C00':'#f6f6f6'}}
                             value={registration.login}
                             placeholder='Логін'  
                             onChangeText={(value) => setRegistration((prevState) =>({...prevState, login: value})) }
-                                onFocus={inputFocus}
+                                onFocus={()=>setActiveInput('login')}
                                 placeholderTextColor='#BDBDBD'
                             />
             </View>
              <View >
-                            <TextInput style={{ ...styles.inputEmail, borderColor: inputBorderColorEmail }}
+                            <TextInput style={{ ...styles.input,borderColor:activeInput==='email'?'#FF6C00':'#f6f6f6' }}
                         value={registration.email}
                         placeholder='Адреса електронної пошти'
                         onChangeText={(value) => setRegistration((prevState) => ({ ...prevState, email: value }))}
-                                onFocus={inputFocus}
+                                onFocus={()=>setActiveInput('email')}
                                 placeholderTextColor ='#BDBDBD'  
                 />
             </View>
              <View >
-                            <TextInput style={{ ...styles.inputPass, borderColor: inputBorderColorPass }}
+                            <TextInput style={{ ...styles.input, borderColor:activeInput==='pass'?'#FF6C00':'#f6f6f6'}}
                     value={registration.pass}
                     placeholder='Пароль'  
                     onChangeText={(value) => setRegistration((prevState) =>({...prevState, pass: value})) }
                     secureTextEntry={seePass}
-                                onFocus={inputFocus}
+                                onFocus={()=>setActiveInput('pass')}
                                 placeholderTextColor ='#BDBDBD'  
                             />
                     <Text style={{ ...styles.seePass, right :32}} onPress ={()=> useSeePass(false)} >Показати</Text>
@@ -198,7 +163,7 @@ const styles = StyleSheet.create({
         paddingBottom:43,
         gap:16,
     },
-    inputLogin: {
+    input: {
         backgroundColor: '#e8e8e8',
         height: 50,
         borderWidth: 1,
@@ -207,24 +172,7 @@ const styles = StyleSheet.create({
         paddingLeft: 16,
         zIndex:666,
     },
-      inputEmail: {
-        backgroundColor: '#e8e8e8',
-        height: 50,
-        borderWidth: 1,
-        // borderColor: '#f6f6f6',
-        borderRadius: 8,
-        paddingLeft: 16,
-        zIndex:666,
-    },
-        inputPass: {
-        backgroundColor: '#e8e8e8',
-        height: 50,
-        borderWidth: 1,
-        // borderColor: '#f6f6f6',
-        borderRadius: 8,
-        paddingLeft: 16,
-        zIndex:666,
-    },
+
     submitBtn: {
         // paddingTop:43,
         marginRight: 16,
